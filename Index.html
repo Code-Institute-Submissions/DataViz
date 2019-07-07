@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('#example').DataTable({
+                "ajax": "alldata.txt"
+            });
+        });
+
+    </script>
+
+    <style>
+        .grid {
+            width: 100%;
+            height: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: minmax(200px, auto);
+            grid-gap: 15px;
+            background-color: lightcyan
+        }
+
+        .grid-item {
+            width: 800px;
+            //  background-color: aquamarine;
+
+        }
+
+        .grid-item2 {
+            //         background-color: aquamarine;
+            grid-column: 2 /4;
+            grid-row: 1 /2;
+        }
+
+        #map {
+            height: auto;
+            width: auto;
+        }
+
+        .grid-item3 {
+            //           background-color: aquamarine;
+
+            grid-row: 2 / 4;
+        }
+
+        .grid-item4 {
+            width: auto;
+            //           background-color: aquamarine;
+            grid-column: 2 /5;
+            grid-row: 2 / 4;
+        }
+
+        #map1 {
+            height: 480px;
+        }
+
+        p {
+            font-size: 1.5em;
+        }
+
+        a:link {
+            color: #909090;
+        }
+
+        a.selected:link {
+            color: #101010;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="grid">
+
+            <!-- ***************************************************************************************** Grid Item 1 -->
+
+            <div class="grid-item">
+
+                <h1>Data Visualisation using Javascript</h1>
+
+                <p>This project demonstrates the use of Javascript to provide the visual display of Data in a webpage.
+                </p>
+                <P>Data is represented on the Map on the Right in the form of Layers of Routes travelled by certain
+                    vehicles. Click on the Icon on the Top-Right of Map.</P>
+                <P>The Map Below shows a Route travelled and by Clicking on the Link Collection Points it will display
+                    items collected along the way and the Points themselves display the Account involved.</P>
+                <P>The Data on the Bottom Right uses jQuery DataTables to present the Data.</P>
+
+            </div>
+
+
+
+            <!-- ***************************************************************************************** Grid Item 2 
+            Used to display an Open Street Map in Leaflet.js and plot the routes travelled by vehicles.
+            The Layer Control on the Top Right allow the Selection and Deselection of the Vehicle plots.            
+            -->
+            <div class="grid-item2">
+                <div id="map" style="width: auto; height: 450px;"></div>
+                <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+
+
+
+                <script src="Lay-608.js"></script>
+                <script src="Lay-337.js"></script>
+                <script src="Lay-2498.js"></script>
+                <script src="Lay-2479.js"></script>
+                <script src="Lay-1059.js"></script>
+                <script src="Lay-2829.js"></script>
+
+                <script>
+                    var Layer2498 = new L.LayerGroup();
+                    L.polyline(trip2498, { color: "#" + trip2498[1][2], opacity: .6 }).addTo(Layer2498);
+                    var Layer608 = new L.LayerGroup();
+                    L.polyline(trip608, { color: "#" + trip608[1][2], opacity: .6 }).addTo(Layer608);
+                    var Layer337 = new L.LayerGroup();
+                    L.polyline(trip337, { color: "#" + trip337[1][2], opacity: .6 }).addTo(Layer337);
+                    var Layer2479 = new L.LayerGroup();
+                    L.polyline(trip2479, { color: "#" + trip2479[1][2], opacity: .6 }).addTo(Layer2479);
+                    var Layer2829 = new L.LayerGroup();
+                    L.polyline(trip2829, { color: "#" + trip2829[1][2], opacity: .6 }).addTo(Layer2829);
+                    var Layer1059 = new L.LayerGroup();
+                    L.polyline(trip1059, { color: "#" + trip1059[1][2], opacity: .6 }).addTo(Layer1059);
+
+                    var osmLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>',
+                        thunLink = '<a href="http://thunderforest.com/">Thunderforest</a>';
+
+                    var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        osmAttrib = '&copy; ' + osmLink + ' Contributors',
+                        landUrl = 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png',
+                        thunAttrib = '&copy; ' + osmLink + ' Contributors & ' + thunLink;
+                    var osmMap = L.tileLayer(osmUrl, { attribution: osmAttrib }),
+                        landMap = L.tileLayer(landUrl, { attribution: thunAttrib });
+                    var map = L.map('map', {
+                        layers: [osmMap] // only add one!
+                    })
+                        .setView([51.879982, -9.583589], 9);
+
+
+                    var baseLayers = {
+                        "OSM Mapnik": osmMap,
+                        "Landscape": landMap
+                    };
+                    var overlays = {
+                        "161-KY-2498": Layer2498,
+                        "162-KY-337": Layer337,
+                        "142-KY-608": Layer608,
+                        "181-KY-2479": Layer2479,
+                        "161-KY-2829": Layer2829,
+                        "141-KY-1059": Layer1059
+
+
+                    };
+                    L.control.layers(baseLayers, overlays).addTo(map);
+                </script>
+
+            </div>
+
+            <!-- ***************************************************************************************** Grid Item 3 
+            Used to display an Open Street Map in Leaflet.js and plot the route travelled by vehicle.
+            The hyperlink "Collection Points" displays points along the way where pickups were made when clicked will pop-up with the Account code.            
+            -->
+            <!-- //********************************************************************************* -->
+            <div class="grid-item3">
+
+                <div id="map1" style="width: auto; height: 400px"></div>
+
+                <ul>
+                    <li><a id="waygrp" href="#">Collection Points</a></li>
+                </ul>
+
+
+                </script>
+
+                <script src="Data.js">
+                </script>
+
+
+                <script src="Waypoint.js">
+                </script>
+
+                <script>
+
+                    // Icon options
+                    var iconOptions = {
+                        iconUrl: 'red150.png',
+                        iconSize: [10, 10]
+                    }
+                    // Creating a custom icon
+                    var customIcon = L.icon(iconOptions);
+
+                    // Creating Marker Options
+                    var markerOptions = {
+                        icon: customIcon
+                    }
+
+                    var map1 = L.map('map1').setView([52.082772, -9.580715], 13);
+
+
+                    mapLink =
+                        '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+                    L.tileLayer(
+                        'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: '&copy; ' + mapLink + ' Contributors',
+                            maxZoom: 18,
+                        }).addTo(map1);
+                    var polyline = L.polyline(planelatlong, { color: 'Blue', opacity: .6 }).addTo(map1);
+
+
+                    var way = [];
+                    for (var i = 0; i < waypoint.length; i++) {
+                        marker = new L.marker([waypoint[i][1], waypoint[i][2]], markerOptions)
+                            .bindPopup(waypoint[i][0]);
+                        way.push(marker);
+                    }
+                    console.log(way);
+                    // way.addTo(map);
+                    var waygrp = L.layerGroup(way);
+
+
+
+                    $("#waygrp").click(function (event) {
+                        event.preventDefault();
+                        if (map1.hasLayer(waygrp)) {
+                            $(this).removeClass('selected');
+                            map1.removeLayer(waygrp);
+                        } else {
+                            map1.addLayer(waygrp);
+                            $(this).addClass('selected');
+                        }
+                    });
+
+                </script>
+
+            </div>
+
+
+            <!-- ***************************************************************************************** Grid Item 4 
+            This uses the jQuery Datatables plugin to diplay the all the data in Grid format.
+            It has the following features builtin:  Sort, Search, Pagination.     
+            -->
+
+
+            <div class="grid-item4">
+
+                <table id="example" class="display" style="width: auto">
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Lat</th>
+                            <th>Lon</th>
+                            <th>Vehicle</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Bin</th>
+                            <th>Color</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Lat</th>
+                            <th>Lon</th>
+                            <th>Vehicle</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Bin</th>
+                            <th>Color</th>
+                        </tr>
+                    </tfoot>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"> -->
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+    <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
+
+</body>
+
+
+
+</html>
